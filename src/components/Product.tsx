@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { products, ProductType } from '@/constants/ProductsData';
-import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import MotionCarousel from '@/components/ui/MotionCarousel';
 import '@/styles/Products.css';
 
 const Product = () => {
@@ -33,27 +32,29 @@ const ProductCard = ({ product }: { product: ProductType }) => {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-b dark:border-gray-700 pb-10">
       {/* Product Image Carousel with custom hover controls */}
       <div className="relative group w-full">
-        <Carousel
-          selectedItem={currentImage}
-          onChange={(index) => setCurrentImage(index)}
-          showArrows={false}
-          showThumbs={false}
-          showStatus={false}
-          showIndicators={hasMultipleImages}
-          infiniteLoop={hasMultipleImages}
-          useKeyboardArrows={hasMultipleImages}
-          swipeable={hasMultipleImages}
-        >
-          {imageUrls.map((img, idx) => (
-            <div key={idx}>
-              <img
-                src={img}
-                alt={`${product.name} image ${idx + 1}`}
-                className="w-full rounded-lg shadow-md"
-              />
-            </div>
-          ))}
-        </Carousel>
+        <div className="aspect-[4/3] w-full">
+          <MotionCarousel
+            selectedIndex={currentImage}
+            onIndexChange={setCurrentImage}
+            showArrows={false}
+            showIndicators={hasMultipleImages}
+            infiniteLoop={hasMultipleImages}
+            className="w-full h-full"
+          >
+            {imageUrls.map((img, idx) => (
+              <div
+                key={idx}
+                className="w-full h-full flex items-center justify-center"
+              >
+                <img
+                  src={img}
+                  alt={`${product.name} image ${idx + 1}`}
+                  className="max-h-full max-w-full rounded-lg shadow-md object-contain"
+                />
+              </div>
+            ))}
+          </MotionCarousel>
+        </div>
 
         {/* LEFT hover zone */}
         {hasMultipleImages && currentImage > 0 && (

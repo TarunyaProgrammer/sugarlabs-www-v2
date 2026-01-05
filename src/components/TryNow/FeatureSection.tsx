@@ -1,7 +1,5 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import MotionCarousel from '@/components/ui/MotionCarousel';
 import { featureSectionAnimations } from '@/styles/Animations';
 
 interface FeatureData {
@@ -14,8 +12,6 @@ interface FeatureData {
 }
 
 const FeatureSection = ({ data }: { data: FeatureData }) => {
-  const [currentImage, setCurrentImage] = useState(0);
-
   return (
     <motion.section
       className="w-[90%] mx-auto py-10 flex flex-col md:flex-row items-center gap-10"
@@ -43,28 +39,25 @@ const FeatureSection = ({ data }: { data: FeatureData }) => {
 
       {/* Right Side: Image Carousel */}
       <motion.div
-        className="md:w-1/2 flex flex-col justify-center items-center relative"
+        className="md:w-1/2 flex flex-col justify-center items-center relative h-[400px] w-full"
         variants={featureSectionAnimations.imageContainer}
       >
         {data.images && data.images.length > 0 ? (
-          <Carousel
-            selectedItem={currentImage}
-            onChange={(index) => setCurrentImage(index)}
-            showThumbs={false}
-            showStatus={false}
-            infiniteLoop
+          <MotionCarousel
             autoPlay
-            interval={3000}
-            transitionTime={600}
-            emulateTouch
-            dynamicHeight
+            infiniteLoop
+            showArrows={false}
+            className="w-full h-full"
           >
             {data.images.map((image, index) => (
-              <motion.div key={index} className="w-full max-w-lg">
+              <motion.div
+                key={index}
+                className="w-full h-full flex items-center justify-center"
+              >
                 <motion.img
                   src={image.src}
                   alt={image.alt}
-                  className="w-full rounded-lg shadow-md"
+                  className="max-h-full max-w-full rounded-lg shadow-md object-contain"
                   initial="hidden"
                   animate="visible"
                   whileHover="hover"
@@ -72,7 +65,7 @@ const FeatureSection = ({ data }: { data: FeatureData }) => {
                 />
               </motion.div>
             ))}
-          </Carousel>
+          </MotionCarousel>
         ) : (
           <motion.div
             className="w-full max-w-lg h-64 bg-gray-300 dark:bg-gray-700 rounded-lg flex items-center justify-center"

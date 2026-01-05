@@ -1,5 +1,4 @@
-import 'react-responsive-carousel';
-import { Carousel } from 'react-responsive-carousel';
+import MotionCarousel from '@/components/ui/MotionCarousel';
 import { useState } from 'react';
 import DOMPurify from 'dompurify';
 import { renderContentWithLinks } from '@/utils/renderlinks-utils';
@@ -24,18 +23,19 @@ const StepsToUse = ({ heading, StepData }: steps) => {
       </h2>
 
       <div className="relative w-full sm:w-[80%] md:w-[70%] lg:w-[60%] mx-auto">
-        <Carousel
-          selectedItem={currentStep}
-          onChange={(index) => setCurrentStep(index)}
+        <MotionCarousel
+          selectedIndex={currentStep}
+          onIndexChange={setCurrentStep}
           showArrows={false}
-          showThumbs={false}
-          showStatus={false}
           showIndicators={true}
-          useKeyboardArrows
           infiniteLoop
+          className="w-full aspect-video md:aspect-[2/1]"
         >
           {StepData.map((step, index) => (
-            <div key={index} className="relative text-center">
+            <div
+              key={index}
+              className="relative text-center w-full h-full flex flex-col justify-center"
+            >
               {/* TEXT CONTENT */}
               <div className="text-lg font-semibold text-gray-600 dark:text-gray-400">
                 Step {index + 1}
@@ -132,7 +132,7 @@ const StepsToUse = ({ heading, StepData }: steps) => {
               </div>
             </div>
           ))}
-        </Carousel>
+        </MotionCarousel>
       </div>
     </section>
   );
